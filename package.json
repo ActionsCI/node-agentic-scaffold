@@ -1,0 +1,21 @@
+{
+  "name": "acmefintech-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "AcmeFintech API platform monorepo",
+  "workspaces": [
+    "services/*",
+    "shared"
+  ],
+  "scripts": {
+    "lint": "eslint . --ext .js,.ts",
+    "format": "prettier --write .",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage --passWithNoTests",
+    "test:integration": "jest --config jest.integration.config.js --passWithNoTests"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "license": "MIT"
+}
