@@ -111,6 +111,34 @@ Enforce this order in every file. Separate each group with a blank line.
 - **Coverage threshold:** 80% lines, 80% branches — enforced in CI
 - **Integration tests:** Live in `src/__tests__/integration/`, run separately via `npm run test:integration`, require a running Postgres and Redis
 
+## Common Mistakes Agents Make
+
+These are patterns we've seen go wrong in agent-generated PRs. If you catch yourself doing any of these, stop and re-read the relevant rule.
+
+1. **Hardcoding secrets "just for now."** There is no "just for now." Hardcoded keys get committed, leaked, and rotated under pressure. Use AWS Secrets Manager from the first commit.
+2. **Inventing a new error response shape.** `res.status(400).json({ message: 'bad' })` is wrong. Every error must use `createError()` from `shared/lib/errors.js`.
+3. **Putting business logic in route handlers.** Handlers parse requests and format responses. If you're writing an `if` that isn't about request shape, move it to `src/services/`.
+4. **Adding rate limit checks in handlers.** Rate limits belong in middleware. Route handlers assume rate limiting already happened.
+5. **Importing `pg` or `knex` from the payments service.** Payments service never touches the database directly. Go through the DAL in `shared/lib/`.
+6. **Logging tokens, passwords, card numbers, or full webhook payloads.** Use the logger's `redact` option. If you're unsure whether something is sensitive, assume it is.
+7. **Skipping tests because "the logic is obvious."** The 80% coverage threshold is enforced in CI. PRs that drop below will not merge.
+8. **Silently catching errors from payment providers.** Swallowed provider errors cause reconciliation bugs. Surface the error, wrap in the envelope, and log with context.
+9. **Adding something to `shared/` because it *might* be reused.** Shared is for code that at least two services use today, not tomorrow. Keep service-specific code in the service.
+10. **Using `console.log`.** Use the structured logger. Always.
+
+## Agent Escalation — When to Stop and Ask
+
+Agents must pause and flag to the human operator when any of the following are true:
+
+- The task requires modifying a file listed as **frozen** in any AGENTS.md
+- The task requires changing a **frozen interface** (the signature of a public API route)
+- The task requires breaking a **golden rule**
+- The task requires adding a new **third-party integration** to the payments service
+- The scope of the task has grown beyond what the spec describes
+- An existing AGENTS.md rule appears to be wrong, outdated, or contradicts another rule
+
+Escalation is not failure. It's how this team catches risky changes before they ship.
+
 ## How to Update This File
 
 This file is maintained by the **Core Platform Engineering (COPE)** team.
