@@ -1,0 +1,14 @@
+{
+  "name": "@acmefintech/auth",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Authentication and session management service",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest --passWithNoTests",
+    "test:coverage": "jest --coverage --passWithNoTests",
+    "test:integration": "jest --config jest.integration.config.js --passWithNoTests"
+  },
+  "license": "MIT"
+}
