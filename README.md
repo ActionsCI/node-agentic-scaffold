@@ -36,6 +36,10 @@ These two files serve different purposes and work together:
 
 Before starting any agent-assisted work, fill out `SPEC.md` for the feature. The agent reads the spec to understand what to build, then reads the relevant AGENTS.md files to understand how to build it correctly.
 
+### Session handoff (`SESSION.template.md`, `.claude/skills/memento-method/`)
+
+**Memento Method** discipline: transient session state that feeds the durable layer (AGENTS.md, ADRs, module summaries). Before ending a session or running `/clear`, the agent externalizes work-in-motion to `SESSION.md` using the template, then runs a graduation check to flag decisions and patterns ready to promote into permanent artifacts. The skill autoloads in Claude Code; the template works for any agent that can read markdown.
+
 ### COPE Ownership Model
 
 **Core Platform Engineering (COPE)** maintains the root AGENTS.md and the shared module rules. Individual service teams own their service-level AGENTS.md files. This keeps ownership clear:
@@ -79,8 +83,13 @@ Service teams can propose changes to root rules via RFC. COPE reviews all new se
 node-agentic-scaffold/
 ├── AGENTS.md                        # Root rules — golden rules, conventions, tech stack
 ├── SPEC.md                          # Feature spec template
+├── SESSION.template.md              # Session handoff template (Memento Method)
 ├── README.md                        # You are here
 ├── package.json                     # Monorepo root config
+├── .claude/
+│   └── skills/
+│       └── memento-method/
+│           └── SKILL.md             # Session handoff skill — autoloads in Claude Code
 ├── .github/
 │   └── PULL_REQUEST_TEMPLATE.md     # PR checklist referencing AGENTS.md
 ├── services/
