@@ -39,6 +39,12 @@ Each service has its own `AGENTS.md` that extends (never overrides) the rules de
 
 ---
 
+## Session Continuity
+
+_Session continuity_: Externalize state to `SESSION.md` before session end or `/clear`. See `.claude/skills/memento-method/SKILL.md` for format and graduation cadence.
+
+---
+
 ## GOLDEN RULES
 
 **These rules are non-negotiable. Every agent, contributor, and reviewer must follow them.**
