@@ -14,9 +14,9 @@ Every agent session in this repo must read this document before starting work. S
 
 | Workstream ID | Owner | Branch | Started | Files / Modules Claimed | Status |
 | --- | --- | --- | --- | --- | --- |
-| `agent-a/payments-refactor` | @stephen.lester | `agent-a/payments-refactor` | 2026-05-14 | `services/payments/src/routes/`, `services/payments/src/services/` | In progress |
-| `agent-b/payments-tests` | @stephen.lester | `agent-b/payments-tests` | 2026-05-15 | `services/payments/src/__tests__/` | In progress |
-| `agent-c/openapi-update` | @stephen.lester | `agent-c/openapi-update` | 2026-05-15 | `services/payments/openapi.yaml`, `services/auth/openapi.yaml` | In progress |
+| `agent-a/payments-refactor` | @burninmedia | `agent-a/payments-refactor` | 2026-05-14 | `services/payments/src/routes/`, `services/payments/src/services/` | In progress |
+| `agent-b/payments-tests` | @burninmedia | `agent-b/payments-tests` | 2026-05-15 | `services/payments/src/__tests__/` | In progress |
+| `agent-c/openapi-update` | @burninmedia | `agent-c/openapi-update` | 2026-05-15 | `services/payments/openapi.yaml`, `services/auth/openapi.yaml` | In progress |
 
 **Workstream ID format:** `<agent-or-engineer-id>/<short-task-description>`. Use kebab-case. Match the branch name exactly so any commit can be traced back to its workstream entry.
 
@@ -32,8 +32,8 @@ Scheduled points where active workstreams converge.
 
 | Date | Type | Workstreams Involved | Owner |
 | --- | --- | --- | --- |
-| 2026-05-22 | Merge to main | `agent-a/payments-refactor`, `agent-b/payments-tests` | @stephen.lester |
-| 2026-05-29 | Cross-program review | All payments workstreams | @stephen.lester |
+| 2026-05-22 | Merge to main | `agent-a/payments-refactor`, `agent-b/payments-tests` | @burninmedia |
+| 2026-05-29 | Cross-program review | All payments workstreams | @burninmedia |
 
 **Rules:**
 
@@ -49,7 +49,7 @@ Decisions made during parallel work that affect more than one workstream. These 
 
 | Date | Decision | Affects | Made By |
 | --- | --- | --- | --- |
-| 2026-05-14 | Payments service routes will use the new `withIdempotencyKey` middleware exclusively. Direct-DB idempotency checks removed. | `agent-a/payments-refactor`, `agent-b/payments-tests` | @stephen.lester |
+| 2026-05-14 | Payments service routes will use the new `withIdempotencyKey` middleware exclusively. Direct-DB idempotency checks removed. | `agent-a/payments-refactor`, `agent-b/payments-tests` | @burninmedia |
 
 **Lifecycle:**
 
