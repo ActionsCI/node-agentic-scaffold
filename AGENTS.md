@@ -22,6 +22,7 @@ AcmeFintech is a B2B fintech API platform that provides payment processing, auth
 ```
 node-agentic-scaffold/
 ├── AGENTS.md              # You are here. Org-wide rules and conventions.
+├── ORCHESTRATION.md       # Parallel workstream coordination (transient).
 ├── SPEC.md                # Feature spec template — fill out before building.
 ├── services/
 │   ├── auth/              # Authentication, session management, JWT issuance.
@@ -36,6 +37,22 @@ node-agentic-scaffold/
 ```
 
 Each service has its own `AGENTS.md` that extends (never overrides) the rules defined here. When a service-level rule conflicts with a root rule, **the root rule wins**.
+
+---
+
+## Multi-Agent Coordination
+
+When multiple agents are working on this codebase in parallel, coordination is structural, not aspirational. The active workstreams, their owners, their branches, and any cross-cutting decisions live in `ORCHESTRATION.md` at the repo root.
+
+**At the start of every session, agents must:**
+
+1. Read `ORCHESTRATION.md` to see what other workstreams are active.
+2. Declare which workstream this session belongs to. If it's a new, undeclared workstream, add the entry to `ORCHESTRATION.md` before starting work.
+3. Note which files and modules other active workstreams have claimed. If your work overlaps with a claimed area, stop and escalate to the human operator before proceeding.
+
+If you are working in a `git worktree` for parallel-agent isolation, the active branch name should match the workstream identifier declared in `ORCHESTRATION.md` (e.g., a session running on `agent-a/payments-refactor` corresponds to the `agent-a/payments-refactor` entry).
+
+For session-end handoff to the next session, see the Memento Method skill at `.claude/skills/memento-method/SKILL.md`. Updating `ORCHESTRATION.md` is part of the handoff.
 
 ---
 
@@ -131,6 +148,7 @@ These are patterns we've seen go wrong in agent-generated PRs. If you catch your
 8. **Silently catching errors from payment providers.** Swallowed provider errors cause reconciliation bugs. Surface the error, wrap in the envelope, and log with context.
 9. **Adding something to `shared/` because it *might* be reused.** Shared is for code that at least two services use today, not tomorrow. Keep service-specific code in the service.
 10. **Using `console.log`.** Use the structured logger. Always.
+11. **Starting parallel work without reading ORCHESTRATION.md.** Other agents may already be touching the files you're about to modify. Reading the orchestration doc at session start is non-optional — it's what keeps parallel sessions from contaminating each other. If you're in this codebase running in parallel with other agents, you don't know your own scope until you've checked.
 
 ## Agent Escalation — When to Stop and Ask
 
@@ -142,6 +160,7 @@ Agents must pause and flag to the human operator when any of the following are t
 - The task requires adding a new **third-party integration** to the payments service
 - The scope of the task has grown beyond what the spec describes
 - An existing AGENTS.md rule appears to be wrong, outdated, or contradicts another rule
+- The files or modules you need to modify overlap with files claimed by another active workstream in `ORCHESTRATION.md`
 
 Escalation is not failure. It's how this team catches risky changes before they ship.
 
