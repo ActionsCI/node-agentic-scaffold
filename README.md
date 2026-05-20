@@ -40,6 +40,10 @@ Before starting any agent-assisted work, fill out `SPEC.md` for the feature. The
 
 **Memento Method** discipline: transient session state that feeds the durable layer (AGENTS.md, ADRs, module summaries). Before ending a session or running `/clear`, the agent externalizes work-in-motion to `SESSION.md` using the template, then runs a graduation check to flag decisions and patterns ready to promote into permanent artifacts. The skill autoloads in Claude Code; the template works for any agent that can read markdown.
 
+### Parallel workstream coordination (`ORCHESTRATION.md`)
+
+When multiple agents (or agents and humans) work on the codebase at the same time, `ORCHESTRATION.md` is the shared coordination state. It tracks active workstreams, which files each one has claimed, scheduled integration points, and cross-cutting decisions that haven't graduated to ADRs yet. Every agent session reads it at startup and updates it at handoff. See the **Multi-Agent Coordination** section of the root AGENTS.md for the session-start protocol.
+
 ### COPE Ownership Model
 
 **Core Platform Engineering (COPE)** maintains the root AGENTS.md and the shared module rules. Individual service teams own their service-level AGENTS.md files. This keeps ownership clear:
@@ -83,6 +87,7 @@ Service teams can propose changes to root rules via RFC. COPE reviews all new se
 node-agentic-scaffold/
 ├── AGENTS.md                        # Root rules — golden rules, conventions, tech stack
 ├── SPEC.md                          # Feature spec template
+├── ORCHESTRATION.md                 # Parallel workstream coordination (transient)
 ├── SESSION.template.md              # Session handoff template (Memento Method)
 ├── README.md                        # You are here
 ├── package.json                     # Monorepo root config
